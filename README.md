@@ -30,6 +30,16 @@ cfg.trash(function (err) {
 
 ```
 
+## Config location
+
+Platform | Location
+--- | ---
+OS X | `~/Library/Application Support/<name>/config.json`
+Linux (XDG) | `$XDG_CONFIG_HOME/<name>/config.json`
+Linux (Legacy) | `~/.config/<name>/config.json`
+Windows (> Vista) | `%LOCALAPPDATA%/<name>/config.json`
+Windows (XP, 2000) | `%USERPROFILE%/Local Settings/Application Data/<name>/config.json`
+
 ## License
 
 MIT
