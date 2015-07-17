@@ -1,25 +1,13 @@
 
-var os = require('os');
 var fs = require('fs');
 var path = require('path');
 var mkdirp = require('mkdirp');
-
-var impl = {
-  'darwin': require('./lib/darwin'),
-  'linux': require('./lib/linux'),
-  'win32': require('./lib/win32')
-};
+var applicationConfigPath = require('application-config-path');
 
 module.exports = function applicationConfig(name) {
 
   function getDirectoryPath() {
-    var key = os.platform();
-
-    if (!impl.hasOwnProperty(key)) {
-      throw new Error('Platform ' + key + ' isn\'t supported');
-    }
-
-    return impl[key](name);
+    return applicationConfigPath(name);
   }
 
   function getFilePath() {

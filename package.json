@@ -9,6 +9,7 @@
     "url": "http://github.com/LinusU/node-application-config.git"
   },
   "dependencies": {
+    "application-config-path": "^0.1.0",
     "mkdirp": "^0.5.0"
   },
   "devDependencies": {
