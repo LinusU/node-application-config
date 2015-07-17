@@ -1,64 +1,46 @@
+var fs = require('fs')
+var path = require('path')
+var mkdirp = require('mkdirp')
+var applicationConfigPath = require('application-config-path')
 
-var fs = require('fs');
-var path = require('path');
-var mkdirp = require('mkdirp');
-var applicationConfigPath = require('application-config-path');
+function applicationConfig (name) {
+  var directoryPath = applicationConfigPath(name)
+  var filePath = path.join(directoryPath, 'config.json')
 
-module.exports = function applicationConfig(name) {
+  function read (cb) {
+    fs.readFile(filePath, function (err, raw) {
+      if (err && err.code === 'ENOENT') return cb(null, {})
+      if (err) return cb(err)
 
-  function getDirectoryPath() {
-    return applicationConfigPath(name);
-  }
-
-  function getFilePath() {
-    return path.join(getDirectoryPath(), 'config.json');
-  }
-
-  function read(cb) {
-    fs.readFile(getFilePath(), function (err, raw) {
-
-      if (err && err.code === 'ENOENT') {
-        return cb(null, {});
-      }
-
-      if (err) {
-        return cb(err);
-      }
-
-      var data;
-
+      var data
       try {
-        data = JSON.parse(raw.toString());
+        data = JSON.parse(raw.toString())
       } catch (err) {
-        return cb(err);
+        return cb(err)
       }
 
-      cb(null, data);
-    });
+      cb(null, data)
+    })
   }
 
-  function trash(cb) {
-    fs.unlink(getFilePath(), function (err) {
-      if (err && err.code !== 'ENOENT') {
-        return cb(err);
-      }
+  function trash (cb) {
+    fs.unlink(filePath, function (err) {
+      if (err && err.code !== 'ENOENT') return cb(err)
 
-      fs.rmdir(getDirectoryPath(), function (err) {
-        if (err && err.code !== 'ENOENT') {
-          return cb(err);
-        }
+      fs.rmdir(directoryPath, function (err) {
+        if (err && err.code !== 'ENOENT') return cb(err)
 
-        cb(null);
-      });
-    });
+        cb(null)
+      })
+    })
   }
 
-  function write(data, cb) {
-    mkdirp(getDirectoryPath(), function (err) {
-      if (err) { return cb(err); }
+  function write (data, cb) {
+    mkdirp(directoryPath, function (err) {
+      if (err) { return cb(err) }
 
-      fs.writeFile(getFilePath(), JSON.stringify(data), cb);
-    });
+      fs.writeFile(filePath, JSON.stringify(data), cb)
+    })
   }
 
   return {
@@ -69,7 +51,9 @@ module.exports = function applicationConfig(name) {
         throw new TypeError('data is not an object')
       }
 
-      return write(data, cb);
+      return write(data, cb)
     }
-  };
-};
+  }
+}
+
+module.exports = applicationConfig
