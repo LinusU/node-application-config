@@ -44,6 +44,7 @@ function applicationConfig (name) {
   }
 
   return {
+    filePath: filePath,
     read: read,
     trash: trash,
     write: function (data, cb) {

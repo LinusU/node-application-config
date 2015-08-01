@@ -1,6 +1,7 @@
 /* eslint-env mocha */
 
 var lib = require('./')('linusu-test')
+var fs = require('fs')
 var assert = require('assert')
 
 var payload = { n: 1337 }
@@ -14,6 +15,17 @@ describe('application-config', function () {
     lib.read(function (err, data) {
       assert.ifError(err)
       assert.equal(payload.n, data.n)
+
+      done()
+    })
+  })
+
+  it('should export path to file', function (done) {
+    assert.equal(typeof lib.filePath, 'string')
+
+    fs.readFile(lib.filePath, function (err, raw) {
+      assert.ifError(err)
+      assert.deepEqual(JSON.parse(raw.toString()), payload)
 
       done()
     })
