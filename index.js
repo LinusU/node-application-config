@@ -33,7 +33,7 @@ ApplicationConfig.prototype.write = function (data, cb) {
   mkdirp(directoryPath, function (err) {
     if (err) { return cb(err) }
 
-    fs.writeFile(self.filePath, JSON.stringify(data), cb)
+    fs.writeFile(self.filePath, JSON.stringify(data, null, 2), cb)
   })
 }
 
