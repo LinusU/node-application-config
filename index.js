@@ -33,7 +33,15 @@ ApplicationConfig.prototype.write = function (data, cb) {
   mkdirp(directoryPath, function (err) {
     if (err) { return cb(err) }
 
-    fs.writeFile(self.filePath, JSON.stringify(data, null, 2), cb)
+    var tempFilePath =
+      self.filePath +
+      Math.random().toString().substr(2) +
+      Date.now().toString()
+    fs.writeFile(tempFilePath, JSON.stringify(data, null, 2), function (err) {
+      if (err) { return cb(err) }
+
+      fs.rename(tempFilePath, self.filePath, cb)
+    })
   })
 }
 
