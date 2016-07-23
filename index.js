@@ -34,9 +34,11 @@ ApplicationConfig.prototype.write = function (data, cb) {
     if (err) { return cb(err) }
 
     var tempFilePath =
-      self.filePath +
+      self.filePath + '-' +
       Math.random().toString().substr(2) +
-      Date.now().toString()
+      Date.now().toString() +
+      path.extname(self.filePath)
+
     fs.writeFile(tempFilePath, JSON.stringify(data, null, 2), function (err) {
       if (err) { return cb(err) }
 
