@@ -1,6 +1,6 @@
 {
   "name": "application-config",
-  "version": "0.2.2",
+  "version": "1.0.0",
   "license": "MIT",
   "author": "Linus Unnebäck <linus@folkdatorn.se>",
   "main": "index.js",
