@@ -1,6 +1,5 @@
 var fs = require('fs')
 var path = require('path')
-var mkdirp = require('mkdirp')
 var applicationConfigPath = require('application-config-path')
 
 function ApplicationConfig (name) {
@@ -26,6 +25,7 @@ ApplicationConfig.prototype.read = function (cb) {
 
 ApplicationConfig.prototype.write = function (data, cb) {
   var self = this
+  var mkdirp = require('mkdirp')
   if (typeof data !== 'object' || data === null) {
     throw new TypeError('data is not an object')
   }
