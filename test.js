@@ -2,7 +2,7 @@
 
 var lib = require('./')('linusu-test')
 var fs = require('fs')
-var assert = require('assert')
+var assert = require('assert').strict
 
 var payload = { n: 1337 }
 
