@@ -1,64 +1,46 @@
-var fs = require('fs')
-var path = require('path')
-var applicationConfigPath = require('application-config-path')
+const fs = require('fs')
+const path = require('path')
+const { promisify } = require('util')
 
-function ApplicationConfig (name) {
-  this.filePath = path.join(applicationConfigPath(name), 'config.json')
-}
+const applicationConfigPath = require('application-config-path')
+const loadJsonFile = require('load-json-file')
 
-ApplicationConfig.prototype.read = function (cb) {
-  var self = this
-  fs.readFile(self.filePath, function (err, raw) {
-    if (err && err.code === 'ENOENT') return cb(null, {})
-    if (err) return cb(err)
+const rmdir = promisify(fs.rmdir)
+const unlink = promisify(fs.unlink)
 
-    var data
+class ApplicationConfig {
+  constructor (name) {
+    this.filePath = path.join(applicationConfigPath(name), 'config.json')
+  }
+
+  async read () {
     try {
-      data = JSON.parse(raw.toString())
+      return await loadJsonFile(this.filePath)
     } catch (err) {
-      return cb(err)
+      if (err.code === 'ENOENT') return {}
+      throw err
+    }
+  }
+
+  async write (data) {
+    if (typeof data !== 'object' || data === null) {
+      throw new TypeError('data is not an object')
     }
 
-    cb(null, data)
-  })
-}
+    const writeJsonFile = require('write-json-file')
 
-ApplicationConfig.prototype.write = function (data, cb) {
-  var self = this
-  var mkdirp = require('mkdirp')
-  if (typeof data !== 'object' || data === null) {
-    throw new TypeError('data is not an object')
+    await writeJsonFile(this.filePath, data)
   }
-  var directoryPath = path.dirname(self.filePath)
-  mkdirp(directoryPath, function (err) {
-    if (err) { return cb(err) }
 
-    var tempFilePath =
-      self.filePath + '-' +
-      Math.random().toString().substr(2) +
-      Date.now().toString() +
-      path.extname(self.filePath)
-
-    fs.writeFile(tempFilePath, JSON.stringify(data, null, 2), function (err) {
-      if (err) { return cb(err) }
-
-      fs.rename(tempFilePath, self.filePath, cb)
-    })
-  })
-}
-
-ApplicationConfig.prototype.trash = function (cb) {
-  var self = this
-  fs.unlink(self.filePath, function (err) {
-    if (err && err.code !== 'ENOENT') return cb(err)
-
-    var directoryPath = path.dirname(self.filePath)
-    fs.rmdir(directoryPath, function (err) {
-      if (err && err.code !== 'ENOENT') return cb(err)
-
-      cb(null)
-    })
-  })
+  async trash () {
+    try {
+      await unlink(this.filePath)
+      await rmdir(path.dirname(this.filePath))
+    } catch (err) {
+      if (err.code === 'ENOENT') return
+      throw err
+    }
+  }
 }
 
 module.exports = function createApplicationConfig (name) {

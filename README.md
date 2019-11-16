@@ -1,4 +1,4 @@
-# `node-application-config`
+# Node.js Application Config
 
 Store your applications config where the operating system wants you to.
 
@@ -14,19 +14,13 @@ npm install --save application-config
 var cfg = require('application-config')('App Name')
 
 // Read the stored data
-cfg.read(function (err, data) {
-
-})
+const data = await cfg.read()
 
 // Write new config
-cfg.write({ n: 1337 }, function (err) {
-
-})
+await cfg.write({ n: 1337 })
 
 // Trash the stored config
-cfg.trash(function (err) {
-
-})
+await cfg.trash()
 ```
 
 ## API
@@ -35,17 +29,17 @@ cfg.trash(function (err) {
 
 Creates and return a new instance with the provided name.
 
-### `cfg.read(cb)`
+### `cfg.read()`
 
-Read the stored configuration. Callback receives `(err, data)`.
+Read the stored configuration. Returns a Promise that settles with the data.
 
-### `cfg.write(data, cb)`
+### `cfg.write(data)`
 
-Write new configuration. Callback receives `(err)`.
+Write new configuration. Returns a Promise.
 
-### `cfg.trash(cb)`
+### `cfg.trash()`
 
-Remove the stored configuration. Callback receives `(err)`.
+Remove the stored configuration. Returns a Promise.
 
 ### `cfg.filePath`
 
