@@ -8,9 +8,11 @@
   },
   "dependencies": {
     "application-config-path": "^0.1.0",
-    "mkdirp": "^0.5.1"
+    "load-json-file": "^6.2.0",
+    "write-json-file": "^4.2.0"
   },
   "devDependencies": {
+    "assert-rejects": "^1.0.0",
     "mocha": "^6.2.2",
     "standard": "^14.3.1"
   },
