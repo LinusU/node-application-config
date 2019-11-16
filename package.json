@@ -3,6 +3,10 @@
   "version": "1.0.1",
   "license": "MIT",
   "repository": "LinusU/node-application-config",
+  "files": [
+    "index.d.ts",
+    "index.js"
+  ],
   "scripts": {
     "test": "standard && mocha"
   },
