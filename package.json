@@ -2,21 +2,19 @@
   "name": "application-config",
   "version": "1.0.1",
   "license": "MIT",
-  "author": "Linus Unnebäck <linus@folkdatorn.se>",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "http://github.com/LinusU/node-application-config.git"
+  "repository": "LinusU/node-application-config",
+  "scripts": {
+    "test": "standard && mocha"
   },
   "dependencies": {
     "application-config-path": "^0.1.0",
     "mkdirp": "^0.5.1"
   },
   "devDependencies": {
-    "mocha": "^2.1.0",
-    "standard": "*"
+    "mocha": "^6.2.2",
+    "standard": "^14.3.1"
   },
-  "scripts": {
-    "test": "standard && mocha"
+  "engines": {
+    "node": ">=8.3"
   }
 }
