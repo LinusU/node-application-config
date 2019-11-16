@@ -2,7 +2,7 @@
 
 var lib = require('./')('linusu-test')
 var fs = require('fs')
-var assert = require('assert').strict
+var assert = require('assert')
 
 var payload = { n: 1337 }
 
@@ -14,18 +14,18 @@ describe('application-config', function () {
   it('should read', function (done) {
     lib.read(function (err, data) {
       assert.ifError(err)
-      assert.equal(payload.n, data.n)
+      assert.strictEqual(payload.n, data.n)
 
       done()
     })
   })
 
   it('should export path to file', function (done) {
-    assert.equal(typeof lib.filePath, 'string')
+    assert.strictEqual(typeof lib.filePath, 'string')
 
     fs.readFile(lib.filePath, function (err, raw) {
       assert.ifError(err)
-      assert.deepEqual(JSON.parse(raw.toString()), payload)
+      assert.deepStrictEqual(JSON.parse(raw.toString()), payload)
 
       done()
     })
@@ -38,7 +38,7 @@ describe('application-config', function () {
   it('should be gone', function (done) {
     lib.read(function (err, data) {
       assert.ifError(err)
-      assert.equal(undefined, data.n)
+      assert.strictEqual(undefined, data.n)
 
       done()
     })
