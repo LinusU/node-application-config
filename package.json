@@ -1,6 +1,6 @@
 {
   "name": "application-config",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "license": "MIT",
   "repository": "LinusU/node-application-config",
   "type": "module",
