@@ -5,5 +5,4 @@ declare class ApplicationConfig {
   trash(): Promise<void>
 }
 
-declare function createApplicationConfig (mame: String): ApplicationConfig
-export = createApplicationConfig
+export default function createApplicationConfig (mame: String): ApplicationConfig

@@ -1,12 +1,9 @@
-const fs = require('fs')
-const path = require('path')
-const { promisify } = require('util')
+import fs from 'node:fs/promises'
+import path from 'node:path'
 
-const applicationConfigPath = require('application-config-path')
-const loadJsonFile = require('load-json-file')
-
-const rmdir = promisify(fs.rmdir)
-const unlink = promisify(fs.unlink)
+import applicationConfigPath from 'application-config-path'
+import { loadJsonFile } from 'load-json-file'
+import { writeJsonFile } from 'write-json-file'
 
 class ApplicationConfig {
   constructor (name) {
@@ -27,15 +24,13 @@ class ApplicationConfig {
       throw new TypeError('data is not an object')
     }
 
-    const writeJsonFile = require('write-json-file')
-
     await writeJsonFile(this.filePath, data)
   }
 
   async trash () {
     try {
-      await unlink(this.filePath)
-      await rmdir(path.dirname(this.filePath))
+      await fs.unlink(this.filePath)
+      await fs.rmdir(path.dirname(this.filePath))
     } catch (err) {
       if (err.code === 'ENOENT') return
       throw err
@@ -43,6 +38,6 @@ class ApplicationConfig {
   }
 }
 
-module.exports = function createApplicationConfig (name) {
+export default function createApplicationConfig (name) {
   return new ApplicationConfig(name)
 }

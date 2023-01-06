@@ -11,7 +11,9 @@ npm install --save application-config
 ## Usage
 
 ```js
-var cfg = require('application-config')('App Name')
+import createApplicationConfig from 'application-config'
+
+const cfg = createApplicationConfig('App Name')
 
 // Read the stored data
 const data = await cfg.read()
@@ -25,7 +27,7 @@ await cfg.trash()
 
 ## API
 
-### `applicationConfig(name)`
+### `createApplicationConfig(name)`
 
 Creates and return a new instance with the provided name.
 

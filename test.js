@@ -1,10 +1,11 @@
 /* eslint-env mocha */
 
-const lib = require('./')('linusu-test')
-const fs = require('fs')
-const assert = require('assert')
-const assertRejects = require('assert-rejects')
+import assert from 'node:assert'
+import fs from 'node:fs'
 
+import createApplicationConfig from './index.js'
+
+const lib = createApplicationConfig('linusu-test')
 const payload = { n: 1337 }
 
 describe('application-config', () => {
@@ -32,10 +33,10 @@ describe('application-config', () => {
   })
 
   it('should throw', () => {
-    assertRejects(lib.write(), TypeError)
-    assertRejects(lib.write(null), TypeError)
-    assertRejects(lib.write(undefined), TypeError)
-    assertRejects(lib.write(1), TypeError)
-    assertRejects(lib.write('test'), TypeError)
+    assert.rejects(lib.write(), TypeError)
+    assert.rejects(lib.write(null), TypeError)
+    assert.rejects(lib.write(undefined), TypeError)
+    assert.rejects(lib.write(1), TypeError)
+    assert.rejects(lib.write('test'), TypeError)
   })
 })
